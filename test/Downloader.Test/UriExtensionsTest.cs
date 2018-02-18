@@ -1,15 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Downloader.Extensions;
-using FluentAssertions;
+﻿// <copyright file="UriExtensionsTest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Downloader.Test
 {
+    using System;
+    using Extensions;
+    using FluentAssertions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// Uri extensions tests.
+    /// </summary>
     [TestClass]
     public class UriExtensionsTest
     {
+        /// <summary>
+        /// Gets the MD5 test.
+        /// </summary>
         [TestMethod]
         public void GetMd5Test()
         {
@@ -18,6 +26,9 @@ namespace Downloader.Test
             md5.Should().Be("DED868DA2BBCCC9D1BD97A74F0190976");
         }
 
+        /// <summary>
+        /// Cleans the URI test.
+        /// </summary>
         [TestMethod]
         public void CleanUriTest()
         {
@@ -26,15 +37,20 @@ namespace Downloader.Test
             newUri.Should().Be("http://sample.com:80/file?q=123");
         }
 
+        /// <summary>
+        /// Gets the file name test.
+        /// </summary>
         [TestMethod]
         public void GetFileNameTest()
         {
             var uri = new Uri("http://sample.com:81/file?q=123");
             var fileName = uri.GetFileName();
             fileName.Should().Be("http___sample.com_81_file_q=123");
-
         }
 
+        /// <summary>
+        /// Gets the credentials test.
+        /// </summary>
         [TestMethod]
         public void GetCredentialsTest()
         {
@@ -43,6 +59,9 @@ namespace Downloader.Test
             credentials.Should().NotBeNull();
         }
 
+        /// <summary>
+        /// Gets the no credentials test.
+        /// </summary>
         [TestMethod]
         public void GetNoCredentialsTest()
         {

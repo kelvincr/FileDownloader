@@ -1,18 +1,33 @@
-﻿namespace Extensibility
+﻿// <copyright file="ProtocolHandlerFactory.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+using System.Collections;
+
+namespace Downloader
 {
     using System;
     using System.Collections.Generic;
     using System.Composition;
-    using Downloader;
+    using Extensibility;
     using Microsoft.Extensions.Logging;
 
+    /// <summary>
+    /// Protocol Handler Factory.
+    /// </summary>
+    /// <seealso cref="Extensibility.IProtocolHandlerFactory" />
     [Export(typeof(IProtocolHandlerFactory))]
     public class ProtocolHandlerFactory : IProtocolHandlerFactory
     {
         private readonly Dictionary<string, Type> handlers = new Dictionary<string, Type>();
 
-        private readonly ILogger Logger = AppLogger.CreateLogger<ProtocolHandlerFactory>();
+        private readonly ILogger logger = AppLogger.CreateLogger<ProtocolHandlerFactory>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProtocolHandlerFactory"/> class.
+        /// </summary>
+        /// <param name="handlers">The handlers.</param>
         [ImportingConstructor]
         public ProtocolHandlerFactory([ImportMany] IEnumerable<IProtocolHandler> handlers)
         {
@@ -22,15 +37,20 @@
             }
         }
 
+        /// <summary>
+        /// Gets the handler.
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns>An Instance of the handler for Uri.</returns>
         public IProtocolHandler GetHandler(Uri uri)
         {
-            if (this.handlers.ContainsKey(uri.Scheme))
+            if (this.handlers.ContainsKey(uri.Scheme.ToLower()))
             {
                 var type = this.handlers[uri.Scheme.ToLower()];
                 return (IProtocolHandler)Activator.CreateInstance(type);
             }
 
-            this.Logger.LogError(Resources.EWI001, uri.Scheme);
+            this.logger.LogError(Resources.EWI001, uri.Scheme);
             return default(IProtocolHandler);
         }
 
@@ -41,7 +61,7 @@
             {
                 if (!this.handlers.ContainsKey(scheme))
                 {
-                    this.handlers.Add(scheme, type);
+                    this.handlers.Add(scheme.ToLower(), type);
                 }
             }
         }

@@ -1,44 +1,59 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+// <copyright file="SampleDataController.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace FileAudit.Controllers
 {
+    using System.Collections.Generic;
+    using DataAccess;
+    using Microsoft.AspNetCore.Mvc;
+    using MimeTypes;
+    using File = DataAccess.File;
+
+    /// <summary>
+    /// Sample Data Controller.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+        /// <summary>
+        /// Files meta data starting from specified start index.
+        /// </summary>
+        /// <param name="startIndex">The start index.</param>
+        /// <returns>Files Meta-data</returns>
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
+        public IEnumerable<File> Files(int startIndex)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+            var db = new DataBase();
+            return db.GetFiles(startIndex);
         }
 
-        public class WeatherForecast
+        /// <summary>
+        /// Files the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>File</returns>
+        [HttpGet("[action]")]
+        public FileResult File(int id)
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
+            var db = new DataBase();
+            var file = db.GetFullFile(id);
+            return this.PhysicalFile(file.LocalFilePath, file.Mime ?? MimeTypeMap.GetMimeType(file.Extension) ?? "application/octet-stream");
+        }
 
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
+        /// <summary>
+        /// Updates the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>true if the update was successful.</returns>
+        [HttpPost("[action]")]
+        public bool Update(int id, [FromBody]string status)
+        {
+            var db = new DataBase();
+            return db.UpDateFile(id, status);
         }
     }
 }

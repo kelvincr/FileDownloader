@@ -1,4 +1,8 @@
-﻿namespace Downloader.Test
+﻿// <copyright file="DownloaderTest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Downloader.Test
 {
     using System;
     using System.Diagnostics;
@@ -8,11 +12,14 @@
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Downloader basic test.
+    /// </summary>
     [TestClass]
     public class DownloaderTest
     {
         /// <summary>
-        /// Downloaders the is resolve using mef.
+        ///     Downloader the is resolve using mef.
         /// </summary>
         [TestMethod]
         public void DownloaderIsResolveUsingMef()
@@ -22,7 +29,7 @@
         }
 
         /// <summary>
-        /// Downloader should download in parallel.
+        ///     Downloader should download in parallel.
         /// </summary>
         /// <returns>Task Completed.</returns>
         [TestMethod]
@@ -38,11 +45,6 @@
             stopwatch.Stop();
             var elapsedTime = stopwatch.Elapsed.Seconds;
             elapsedTime.Should().BeLessThan(10);
-
         }
-
-        //[TestMethod]
-        //public void DownloaderShould
-
     }
 }

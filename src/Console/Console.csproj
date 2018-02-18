@@ -5,12 +5,31 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Console.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.2.1" />
+    <None Remove="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.2.1" />
+    <PackageReference Include="Figgle" Version="0.3.0" />
+    <PackageReference Include="Microsoft.Composition" Version="1.0.31" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
+    <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Downloader\Downloader.csproj" />
+    <ProjectReference Include="..\Extensibility\Extensibility.csproj" />
+    <ProjectReference Include="..\WebHandlers\WebHandlers.csproj" />
   </ItemGroup>
 
 </Project>

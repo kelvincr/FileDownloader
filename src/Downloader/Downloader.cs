@@ -1,24 +1,23 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Downloader
+﻿namespace Downloader
 {
     using System;
     using System.Collections.Generic;
     using System.Composition;
     using System.IO;
     using System.Net;
-    using System.Security.Cryptography;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Extensibility;
+    using Extensions;
     using Microsoft.Extensions.Logging;
 
     [Export(typeof(IDownloader))]
     public sealed class Downloader : IDownloader
     {
-        private readonly IDownloaderOptions options;
         private readonly IProtocolHandlerFactory handlerFactory;
+        private readonly IDownloaderOptions options;
+
+        private readonly ILogger Logger = AppLogger.CreateLogger<Downloader>();
 
         public Downloader()
         {
@@ -32,21 +31,33 @@ namespace Downloader
             Configure(this.options);
         }
 
-        private ILogger Logger => AppLogger.CreateLogger<Downloader>();
-
         public async Task DownloadAsync(IEnumerable<Uri> uris, CancellationToken tk)
         {
             foreach (var uri in uris)
             {
-                var data = GetCredentials(uri);
-                var fileName = Path.Combine(Path.GetTempPath(), GetMd5(data.uri.ToString()));
-                var destFile = Path.Combine(this.options.OutputPath, this.GetNewFileName(data.uri.ToString()));
-                var result = await this.ProcessUri(data.uri,  fileName, data.credentials, tk);
+                var cleanUri = uri.CleanUri();
+                var credentials = uri.GetCredentials();
+                var fileName = Path.Combine(Path.GetTempPath(), cleanUri.GetMd5());
+                var destFile = Path.Combine(this.options.OutputPath, cleanUri.GetFileName());
+                var result = await this.ProcessUri(cleanUri,  fileName, credentials, tk);
                 if (result == CompletedState.Succeeded)
                 {
                     await CopyAsync(fileName, destFile, tk);
                 }
             }
+        }
+
+        private static void CleanUpPreviousData(string tempFileName)
+        {
+            if (File.Exists(tempFileName))
+            {
+                File.Delete(tempFileName);
+            }
+        }
+
+        private static void Configure(IDownloaderOptions options)
+        {
+            Directory.CreateDirectory(options.OutputPath);
         }
 
         private static async Task CopyAsync(string filename, string destFile, CancellationToken cancellationToken)
@@ -65,43 +76,6 @@ namespace Downloader
             }
         }
 
-        private string GetNewFileName(string url)
-        {
-            var urlParts = new List<string>();
-            var stringBuilder = new StringBuilder();
-            var r = new Regex(@"[a-z]+", RegexOptions.IgnoreCase);
-            foreach (Match m in r.Matches(url))
-            {
-                urlParts.Add(m.Value);
-            }
-
-            foreach (var t in urlParts)
-            {
-                stringBuilder.Append(t);
-                stringBuilder.Append("_");
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        private static void CleanUpPreviousData(string tempFileName)
-        {
-            if (File.Exists(tempFileName))
-            {
-                File.Delete(tempFileName);
-            }
-        }
-
-        private static string GetMd5(string input)
-        {
-            var md5 = new MD5CryptoServiceProvider();
-
-            var originalBytes = Encoding.Default.GetBytes(input);
-            var encodedBytes = md5.ComputeHash(originalBytes);
-
-            return BitConverter.ToString(encodedBytes).Replace("-", string.Empty);
-        }
-
         private async Task<CompletedState> BeginDownloadAsync(Uri uri, string fileName, ICredentials credentials, CancellationToken tk)
         {
             var handler = this.handlerFactory.GetHandler(uri);
@@ -111,16 +85,14 @@ namespace Downloader
             }
         }
 
-        private static void Configure(IDownloaderOptions options)
+        private async Task<CompletedState> ContinueDownloadAsync(Uri uri, string fileName, ICredentials credentials, CancellationToken tk)
         {
-            Directory.CreateDirectory(options.OutputPath);
-        }
-
-        private static (Uri uri, NetworkCredential credentials) GetCredentials(Uri uri)
-        {
-            var userInfo = uri.UserInfo.Split(':');
-            var networkCredentials = userInfo.Length == 2 ? new NetworkCredential(userInfo[0], userInfo[1]) : null;
-            return (new Uri(uri.OriginalString), networkCredentials);
+            var handler = this.handlerFactory.GetHandler(uri);
+            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite))
+            {
+                fileStream.Seek(0, SeekOrigin.End);
+                return await handler.ContinueDownloadAsync(uri, fileStream, fileStream.Position, credentials, tk);
+            }
         }
 
         private async Task<CompletedState> ProcessUri(Uri uri, string fileName, ICredentials credentials, CancellationToken tk)
@@ -166,16 +138,6 @@ namespace Downloader
             }
 
             return result;
-        }
-
-        private async Task<CompletedState> ContinueDownloadAsync(Uri uri, string fileName, ICredentials credentials, CancellationToken tk)
-        {
-            var handler = this.handlerFactory.GetHandler(uri);
-            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite))
-            {
-                fileStream.Seek(0, SeekOrigin.End);
-                return await handler.ContinueDownloadAsync(uri, fileStream, fileStream.Position, credentials, tk);
-            }
         }
     }
 }

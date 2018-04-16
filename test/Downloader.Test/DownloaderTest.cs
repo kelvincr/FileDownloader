@@ -1,14 +1,12 @@
-﻿using System;
-using Extensibility;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Composition;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Downloader.Test
+﻿namespace Downloader.Test
 {
+    using System;
+    using System.Diagnostics;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Extensibility;
+    using FluentAssertions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class DownloaderTest

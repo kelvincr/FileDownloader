@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -8,7 +9,7 @@ namespace Extensibility
 {
     public interface IProtocolHandler
     {
-        string Scheme { get; }
+        IEnumerable<string> Scheme { get; }
 
         Task<long> FetchSizeAsync(Uri uri, ICredentials credentials, CancellationToken cancellationToken);
 

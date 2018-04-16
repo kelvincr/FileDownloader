@@ -14,10 +14,10 @@ namespace WebHandlers
         protected async Task<CompletedState> GetResponseAsync(Stream writeStream, WebRequest request, long responseOffset, CancellationToken cancellationToken)
         {
             var result = CompletedState.NonStarted;
-            using (var responseFileDownload = request.GetResponse())
-            using (var responseStream = responseFileDownload.GetResponseStream())
+            try
             {
-                try
+                using (var responseFileDownload = request.GetResponse())
+                using (var responseStream = responseFileDownload.GetResponseStream())
                 {
                     responseStream.Seek(responseOffset, SeekOrigin.Begin);
                     const int length = 2048;
@@ -41,10 +41,10 @@ namespace WebHandlers
 
                     result = result != CompletedState.Canceled ? CompletedState.Succeeded : result;
                 }
-                catch (Exception)
-                {
-                    result = CompletedState.Failed;
-                }
+            }
+            catch (Exception)
+            {
+                result = CompletedState.Failed;
             }
 
             return result;

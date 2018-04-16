@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition;
 using System.IO;
 using System.Net;
@@ -13,7 +14,7 @@ namespace WebHandlers
     [Export(typeof(IProtocolHandler))]
     public class HttpHandler : BaseHandler, IProtocolHandler
     {
-        public string Scheme => "http";
+        public IEnumerable<string> Scheme => new[] {"http","https"};
 
         public async Task<long> FetchSizeAsync(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {

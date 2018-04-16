@@ -1,4 +1,6 @@
-﻿namespace WebHandlers
+﻿using System.Collections.Generic;
+
+namespace WebHandlers
 {
     using System;
     using System.Composition;
@@ -11,7 +13,7 @@
     [Export(typeof(IProtocolHandler))]
     public class FtpHandler : BaseHandler, IProtocolHandler
     {
-        public string Scheme => "ftp";
+        public IEnumerable<string> Scheme => new[] {"ftp", "sftp"};
 
         public async Task<long> FetchSizeAsync(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {

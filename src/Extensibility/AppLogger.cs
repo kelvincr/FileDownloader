@@ -1,7 +1,7 @@
-﻿namespace Downloader
-{
-    using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
+namespace Extensibility
+{
     /// <summary>
     ///     Application logger.
     /// </summary>

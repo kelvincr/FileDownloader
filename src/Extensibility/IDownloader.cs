@@ -1,9 +1,13 @@
-﻿namespace Extensibility
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Extensibility
 {
     using System.Collections.Generic;
 
     public interface IDownloader
     {
-        IEnumerable<IProtocolHandler> Handlers { get; set; }
+        Task DownloadAsync(IEnumerable<Uri> uris, CancellationToken tk);
     }
 }

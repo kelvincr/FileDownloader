@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DefaultOutput" xml:space="preserve">
-    <value>Files</value>
-  </data>
-  <data name="EWI001" xml:space="preserve">
-    <value>There is no handler for protocol {0}</value>
-  </data>
   <data name="EWI002" xml:space="preserve">
-    <value>Failed to to process uri attemp {0} of {1} : {2}</value>
+    <value>Cannot load Assembly with MEF, exception: {0} /n inner exception: {1}</value>
   </data>
 </root>

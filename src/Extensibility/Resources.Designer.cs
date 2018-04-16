@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Downloader {
+namespace Extensibility {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Downloader {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Downloader.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Extensibility.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,25 +61,7 @@ namespace Downloader {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Files.
-        /// </summary>
-        internal static string DefaultOutput {
-            get {
-                return ResourceManager.GetString("DefaultOutput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is no handler for protocol {0}.
-        /// </summary>
-        internal static string EWI001 {
-            get {
-                return ResourceManager.GetString("EWI001", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to to process uri attemp {0} of {1} : {2}.
+        ///   Looks up a localized string similar to Cannot load Assembly with MEF, exception: {0} /n inner exception: {1}.
         /// </summary>
         internal static string EWI002 {
             get {

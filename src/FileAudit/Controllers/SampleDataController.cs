@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -9,36 +10,30 @@ namespace FileAudit.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
+        public IEnumerable<File> Files(int startDateIndex)
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 5).Select(index => new File
             {
-                DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Id = rng.Next(),
+                Server = "www.google.com",
+                Name = "test.html",
+                Size = 10,
+                Date = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
+                Status = "Ready to process"
             });
         }
 
-        public class WeatherForecast
+        [HttpGet("[action]")]
+        public FileResult File(int id)
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
-
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
+            var fileName = Path.GetFullPath(Path.Combine("wwwroot", "img", "1.jpg"));
+            return PhysicalFile(fileName, "image/jpg");
         }
+
+
+
+        
     }
 }

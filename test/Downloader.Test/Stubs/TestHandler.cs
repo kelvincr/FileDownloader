@@ -17,7 +17,7 @@ namespace Downloader.Test.Stubs
     [Export(typeof(IProtocolHandler))]
     public class TestHandler : IProtocolHandler
     {
-        public string Scheme => "Test";
+        public IEnumerable<string> Scheme => new[] { "Test" };
 
         public async Task<long> FetchSizeAsync(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {

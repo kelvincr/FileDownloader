@@ -9,19 +9,28 @@ import * as FilesState from '../store/FileStorage';
 type FileProps =
 FilesState.FileStorageState        // ... state we've requested from the Redux store
     & typeof FilesState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
+    & RouteComponentProps<{ startIndex: string }>; // ... plus incoming routing parameters
 
 class FetchData extends React.Component<FileProps, {}> {
+
+
+
     componentWillMount() {
         // This method runs when the component is first added to the page
-        let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
+        let startDateIndex = parseInt(this.props.match.params.startIndex) || 0;
         this.props.requestFilesAction(startDateIndex);
+        this.updateFile = this.updateFile.bind(this);
     }
 
     componentWillReceiveProps(nextProps: FileProps) {
         // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
+        let startDateIndex = parseInt(nextProps.match.params.startIndex) || 0;
         this.props.requestFilesAction(startDateIndex);
+    }
+
+    updateFile(file: any, e : any){
+        let startIndex = parseInt(this.props.match.params.startIndex) || 0;
+        this.props.requestFileChangeStatusAction(file.id, e.target.value, file);
     }
 
     public render() {
@@ -48,25 +57,25 @@ class FetchData extends React.Component<FileProps, {}> {
             {this.props.files.map(file =>
                 <tr key={ file.id }>
                     <td>{ file.server }</td>
-                    <td><button onClick={(e) => this.openFile(file.id, e)}>{ file.name }</button></td>
+                    <td><button onClick={(e) => this.openFile(file.id, e)}><span className="glyphicon glyphicon-search"></span></button>{ file.name }</td>
                     <td>{ file.size }</td>
                     <td>{ file.date }</td>
-                    <td>{this.renderStatus(file.status, file.id)}</td>
+                    <td>{this.renderStatus(file.status, file)}</td>
                 </tr>
             )}
             </tbody>
         </table>;
     }
 
-    private renderStatus(status : string, id : number){
+    private renderStatus(status : string, file : any){
         
-        {if(status === "Ready to process") 
-                return this.renderDropDown(id); 
-        else return status };
+        {if(status === "Approved" || status === "Rejected") 
+        return status; 
+        else return  this.renderDropDown(file) };
     }
 
-    private renderDropDown(id : number){
-        return <select  className="selectpicker" onChange={(e) => this.updateFile(id, e)}>
+    private renderDropDown(file : any){
+        return <select  className="selectpicker" onChange={(e) => this.updateFile(file, e)}>
         <option>Ready to process</option>
         <option>Approved</option>
         <option>Rejected</option>
@@ -74,15 +83,9 @@ class FetchData extends React.Component<FileProps, {}> {
       
     }
 
-    private updateFile(id: number, e : any){
-        console.log(id, e.target.value);
-    }
-
-
-
     private renderPagination() {
-        let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
-        let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
+        let prevStartDateIndex = (this.props.startIndex || 0) - 5;
+        let nextStartDateIndex = (this.props.startIndex || 0) + 5;
 
         return <p className='clearfix text-center'>
         {prevStartDateIndex >= 0 ?

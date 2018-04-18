@@ -42,5 +42,18 @@ namespace FileAudit.Controllers
             var file = db.GetFullFile(id);
             return this.PhysicalFile(file.LocalFilePath, file.Mime ?? MimeTypeMap.GetMimeType(file.Extension) ?? "application/octet-stream");
         }
+
+        /// <summary>
+        /// Updates the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>true if the update was successful.</returns>
+        [HttpPost("[action]")]
+        public bool Update(int id, [FromBody]string status)
+        {
+            var db = new DataBase();
+            return db.UpDateFile(id, status);
+        }
     }
 }

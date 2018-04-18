@@ -68,7 +68,7 @@ namespace DataAccess
                 {
                     existingFile.Size = size;
                     existingFile.Date = date.ToShortDateString();
-                    existingFile.Status = "Pending to process";
+                    existingFile.Status = "Ready to process";
                     existingFile.Extension = extension;
                     col.Update(existingFile);
                     return existingFile.Id;
@@ -82,7 +82,7 @@ namespace DataAccess
                         LocalFilePath = filePath,
                         Size = size,
                         Date = date.ToShortDateString(),
-                        Status = "Pending to process",
+                        Status = "Ready to process",
                         Mime = mime,
                         Extension = extension
                     };
@@ -97,7 +97,7 @@ namespace DataAccess
             using (var db = new LiteDatabase(this.databasePath))
             {
                 var col = db.GetCollection<FullFile>("files");
-                var file = col.Find(Query.EQ("Id", id), limit: 1).FirstOrDefault();
+                var file = col.FindById(id);
                 if (file == null)
                 {
                     return false;

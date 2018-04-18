@@ -25,6 +25,14 @@ namespace DataAccess
         /// <value>
         ///     The extension.
         /// </value>
+        public string Mime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension.
+        /// </summary>
+        /// <value>
+        /// The extension.
+        /// </value>
         public string Extension { get; set; }
     }
 }

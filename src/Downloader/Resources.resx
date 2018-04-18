@@ -126,4 +126,25 @@
   <data name="EWI002" xml:space="preserve">
     <value>Failed to to process uri attemp {0} of {1} : {2}</value>
   </data>
+  <data name="InvalidUri" xml:space="preserve">
+    <value>Invalid Uri: {0}</value>
+  </data>
+  <data name="Download_Async_Started" xml:space="preserve">
+    <value>Download Async Started</value>
+  </data>
+  <data name="Download_Async_Completed" xml:space="preserve">
+    <value>Download Async Completed</value>
+  </data>
+  <data name="Registered_on_DB" xml:space="preserve">
+    <value>Registered on DB: {0}{1}</value>
+  </data>
+  <data name="Downloaded_to_tmp" xml:space="preserve">
+    <value>Downloaded to tmp: {0}</value>
+  </data>
+  <data name="Press_Any_Key_to_Exit" xml:space="preserve">
+    <value>Press Any Key to Exit</value>
+  </data>
+  <data name="Start_Downloading" xml:space="preserve">
+    <value>Start Downloading: {0}</value>
+  </data>
 </root>

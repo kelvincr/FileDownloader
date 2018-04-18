@@ -34,7 +34,7 @@ namespace WebHandlers
                 using (var responseFileDownload = request.GetResponse())
                 using (var responseStream = responseFileDownload.GetResponseStream())
                 {
-                    responseStream.Seek(responseOffset, SeekOrigin.Begin);
+                   // responseStream.Position = responseOffset;
                     const int length = 2048;
                     var buffer = new byte[length];
                     var bytesRead = responseStream.Read(buffer, 0, length);

@@ -19,6 +19,7 @@ namespace WebHandlers
     /// </summary>
     /// <seealso cref="WebHandlers.BaseHandler" />
     /// <seealso cref="Extensibility.IProtocolHandler" />
+    /// <inheritdoc cref="Extensibility.IProtocolHandler" />
     [Export(typeof(IProtocolHandler))]
     public class HttpHandler : BaseHandler, IProtocolHandler
     {
@@ -26,19 +27,19 @@ namespace WebHandlers
         public IEnumerable<string> Scheme => new[] {"http", "https"};
 
         /// <inheritdoc cref="IProtocolHandler"/>
-        public async Task<long> FetchSizeAsync(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
+        public (long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {
             try
             {
                 var request = (HttpWebRequest) WebRequest.Create(uri);
                 request.Credentials = credentials;
                 request.Method = WebRequestMethods.Http.Head;
-                var response = await request.GetResponseAsync();
-                return response.ContentLength;
+                var response = request.GetResponse();
+                return (response.ContentLength, response.ContentType);
             }
             catch (Exception)
             {
-                return -1;
+                return (-1, string.Empty);
             }
         }
 

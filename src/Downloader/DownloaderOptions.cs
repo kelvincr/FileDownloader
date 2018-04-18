@@ -31,10 +31,10 @@ namespace Downloader
         }
 
         /// <inheritdoc />
-        public int MaxAttempts { get; }
+        public int MaxAttempts { get; set; }
 
         /// <inheritdoc />
-        public string OutputPath { get; }
+        public string OutputPath { get; set; }
 
         private static string GetCurrentDirectory()
         {

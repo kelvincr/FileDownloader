@@ -10,20 +10,21 @@ namespace Extensibility
     /// </summary>
     public interface IDownloaderOptions
     {
-        /// <summary>
-        ///     Gets the maximum attempts.
-        /// </summary>
-        /// <value>
-        ///     The maximum attempts.
-        /// </value>
-        int MaxAttempts { get; }
 
         /// <summary>
-        ///     Gets the output path.
+        /// Gets or sets the maximum attempts.
         /// </summary>
         /// <value>
-        ///     The output path.
+        /// The maximum attempts.
         /// </value>
-        string OutputPath { get; }
+        int MaxAttempts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the output path.
+        /// </summary>
+        /// <value>
+        /// The output path.
+        /// </value>
+        string OutputPath { get; set; }
     }
 }

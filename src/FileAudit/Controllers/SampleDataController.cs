@@ -26,7 +26,7 @@ namespace FileAudit.Controllers
         [HttpGet("[action]")]
         public IEnumerable<File> Files(int startIndex)
         {
-            var db = new DataAccess();
+            var db = new DataBase();
             return db.GetFiles(startIndex);
         }
 
@@ -38,9 +38,9 @@ namespace FileAudit.Controllers
         [HttpGet("[action]")]
         public FileResult File(int id)
         {
-            var db = new DataAccess();
+            var db = new DataBase();
             var file = db.GetFullFile(id);
-            return this.PhysicalFile(file.LocalFilePath, MimeTypeMap.GetMimeType(file.Extension));
+            return this.PhysicalFile(file.LocalFilePath, file.Mime ?? MimeTypeMap.GetMimeType(file.Extension) ?? "application/octet-stream");
         }
     }
 }

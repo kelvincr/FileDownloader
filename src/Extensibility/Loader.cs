@@ -26,7 +26,7 @@ namespace Extensibility
         /// </summary>
         static Loader()
         {
-            ExtensionPaths = new List<string> {"./"};
+            ExtensionPaths = new List<string> { Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location) };
         }
 
         /// <summary>
@@ -47,7 +47,8 @@ namespace Extensibility
             LoadAssembly(typeof(T).GetTypeInfo().Assembly.GetName());
             LoadAssembly(Assembly.GetCallingAssembly().GetName());
             var dlls = ExtensionPaths.SelectMany(path =>
-                Directory.GetFiles(Path.GetFullPath(path), "*.dll").Select(Assembly.LoadFile));
+                Directory.GetFiles(Path.GetFullPath(path), "*.dll")
+                    .Select(Assembly.LoadFile));
 
             foreach (var dll in dlls)
             {

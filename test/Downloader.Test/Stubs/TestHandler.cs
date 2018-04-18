@@ -22,7 +22,7 @@ namespace Downloader.Test.Stubs
     {
         public IEnumerable<string> Scheme => new[] {"Test"};
 
-        public async Task<long> FetchSizeAsync(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
+        public async Task<long> FetchSize(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {
             const long size = -1;
             return size;

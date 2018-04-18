@@ -30,15 +30,17 @@ namespace Extensibility
         FullFile GetFullFile(int index);
 
         /// <summary>
-        ///     Stores the file.
+        /// Stores the file.
         /// </summary>
         /// <param name="server">The server.</param>
         /// <param name="name">The name.</param>
         /// <param name="filePath">The file path.</param>
         /// <param name="size">The size.</param>
+        /// <param name="mime">The MIME.</param>
+        /// <param name="extension">The extension.</param>
         /// <param name="date">The date.</param>
         /// <returns>The id of inserted File</returns>
-        int StoreFile(string server, string name, string filePath, long size, DateTime date);
+        int StoreFile(string server, string name, string filePath, long size, string mime, string extension, DateTime date);
 
         /// <summary>
         ///     Ups the date file.

@@ -47,7 +47,7 @@ export const actionCreators = {
     requestFilesAction: (startDateIndex: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
         if (startDateIndex !== getState().files.startDateIndex) {
-            let fetchTask = fetch(`api/SampleData/Files?startDateIndex=${ startDateIndex }`)
+            let fetchTask = fetch(`api/SampleData/Files?startIndex=${ startDateIndex }`)
                 .then(response => response.json() as Promise<File[]>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_FILES', startDateIndex: startDateIndex, files: data });

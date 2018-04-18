@@ -22,7 +22,7 @@ namespace Downloader {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Downloader {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Downloader.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Downloader {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,43 @@ namespace Downloader {
         /// <summary>
         ///   Looks up a localized string similar to Files.
         /// </summary>
-        internal static string DefaultOutput {
+        public static string DefaultOutput {
             get {
                 return ResourceManager.GetString("DefaultOutput", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Async Completed.
+        /// </summary>
+        public static string Download_Async_Completed {
+            get {
+                return ResourceManager.GetString("Download_Async_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Async Started.
+        /// </summary>
+        public static string Download_Async_Started {
+            get {
+                return ResourceManager.GetString("Download_Async_Started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded to tmp: {0}.
+        /// </summary>
+        public static string Downloaded_to_tmp {
+            get {
+                return ResourceManager.GetString("Downloaded_to_tmp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no handler for protocol {0}.
         /// </summary>
-        internal static string EWI001 {
+        public static string EWI001 {
             get {
                 return ResourceManager.GetString("EWI001", resourceCulture);
             }
@@ -81,9 +108,45 @@ namespace Downloader {
         /// <summary>
         ///   Looks up a localized string similar to Failed to to process uri attemp {0} of {1} : {2}.
         /// </summary>
-        internal static string EWI002 {
+        public static string EWI002 {
             get {
                 return ResourceManager.GetString("EWI002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Uri: {0}.
+        /// </summary>
+        public static string InvalidUri {
+            get {
+                return ResourceManager.GetString("InvalidUri", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press Any Key to Exit.
+        /// </summary>
+        public static string Press_Any_Key_to_Exit {
+            get {
+                return ResourceManager.GetString("Press_Any_Key_to_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered on DB: {0}{1}.
+        /// </summary>
+        public static string Registered_on_DB {
+            get {
+                return ResourceManager.GetString("Registered_on_DB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Downloading: {0}.
+        /// </summary>
+        public static string Start_Downloading {
+            get {
+                return ResourceManager.GetString("Start_Downloading", resourceCulture);
             }
         }
     }

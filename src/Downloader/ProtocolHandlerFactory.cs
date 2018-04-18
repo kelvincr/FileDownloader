@@ -3,6 +3,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.Collections;
+
 namespace Downloader
 {
     using System;
@@ -42,7 +44,7 @@ namespace Downloader
         /// <returns>An Instance of the handler for Uri.</returns>
         public IProtocolHandler GetHandler(Uri uri)
         {
-            if (this.handlers.ContainsKey(uri.Scheme))
+            if (this.handlers.ContainsKey(uri.Scheme.ToLower()))
             {
                 var type = this.handlers[uri.Scheme.ToLower()];
                 return (IProtocolHandler)Activator.CreateInstance(type);
@@ -59,7 +61,7 @@ namespace Downloader
             {
                 if (!this.handlers.ContainsKey(scheme))
                 {
-                    this.handlers.Add(scheme, type);
+                    this.handlers.Add(scheme.ToLower(), type);
                 }
             }
         }

@@ -42,12 +42,13 @@ node node_modules\webpack\bin\webpack.js --config .\webpack.config.vendor.js
 Those apps could be run from visual studio or using dotnet cli.
 ```bash
 > dotnet Console.dll -i https://i.stack.imgur.com/bpVlu.jpg
->
+> cd src/FileAudit
+> dotnet run 
 ```
 
 You can find more detailed information of the each component on the [docs folder ][docs]. 
 
 
 
-[docs]: docs/overview
+[docs]: docs/overview.md
 [dotnet-core]: https://www.microsoft.com/net/download/windows

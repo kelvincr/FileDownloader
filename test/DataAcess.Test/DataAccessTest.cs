@@ -3,6 +3,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DataAccess;
+
 namespace DataAcess.Test
 {
     using System;
@@ -31,7 +33,8 @@ namespace DataAcess.Test
                 files.Should().NotBeNull();
             files.Count().Should().Be(1);
             var file = files.First();
-                file.Should().NotBeNull().And.Should().BeAssignableTo<File>();
+            file.Should().NotBeNull();
+            file.Should().BeOfType<FullFile>();
             file.Name.Should().Be("file.txt");
         }
 
@@ -42,8 +45,10 @@ namespace DataAcess.Test
         public void DataAccessUpdateTest()
         {
             var data = new DataAccess.DataBase(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
-            data.StoreFile("www.sample.com", "file.txt", @"//Storage/file1.txt", 100, string.Empty, string.Empty, DateTime.Now);
-            data.GetFiles(0).Should().NotBeNull().And.Should().BeAssignableTo<File>();
+            var storedId = data.StoreFile("www.sample.com", "file.txt", @"//Storage/file1.txt", 100, string.Empty, string.Empty, DateTime.Now);
+            var file = data.GetFullFile(storedId);
+            file.Should().NotBeNull();
+            file.Should().BeOfType<FullFile>();
         }
     }
 }

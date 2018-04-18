@@ -1,17 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Extensibility;
+﻿// <copyright file="BaseHandler.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace WebHandlers
 {
+    using System;
+    using System.IO;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Extensibility;
+
+    /// <summary>
+    /// Base Helper handler.
+    /// </summary>
     public class BaseHandler
     {
-        protected async Task<CompletedState> GetResponseAsync(Stream writeStream, WebRequest request, long responseOffset, CancellationToken cancellationToken)
+        /// <summary>
+        /// Gets the response asynchronous.
+        /// </summary>
+        /// <param name="writeStream">The write stream.</param>
+        /// <param name="request">The request.</param>
+        /// <param name="responseOffset">The response offset.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        protected async Task<CompletedState> GetResponseAsync(
+            Stream writeStream, WebRequest request, long responseOffset, CancellationToken cancellationToken)
         {
             var result = CompletedState.NonStarted;
             try
@@ -49,6 +64,5 @@ namespace WebHandlers
 
             return result;
         }
-
     }
 }

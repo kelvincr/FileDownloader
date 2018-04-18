@@ -1,39 +1,46 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+// <copyright file="SampleDataController.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace FileAudit.Controllers
 {
+    using System.Collections.Generic;
+    using DataAccess;
+    using Microsoft.AspNetCore.Mvc;
+    using MimeTypes;
+    using File = DataAccess.File;
+
+    /// <summary>
+    /// Sample Data Controller.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        /// <summary>
+        /// Files meta data starting from specified start index.
+        /// </summary>
+        /// <param name="startIndex">The start index.</param>
+        /// <returns>Files Meta-data</returns>
         [HttpGet("[action]")]
-        public IEnumerable<File> Files(int startDateIndex)
+        public IEnumerable<File> Files(int startIndex)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new File
-            {
-                Id = rng.Next(),
-                Server = "www.google.com",
-                Name = "test.html",
-                Size = 10,
-                Date = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-                Status = "Ready to process"
-            });
+            var db = new DataAccess();
+            return db.GetFiles(startIndex);
         }
 
+        /// <summary>
+        /// Files the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>File</returns>
         [HttpGet("[action]")]
         public FileResult File(int id)
         {
-            var fileName = Path.GetFullPath(Path.Combine("wwwroot", "img", "1.jpg"));
-            return PhysicalFile(fileName, "image/jpg");
+            var db = new DataAccess();
+            var file = db.GetFullFile(id);
+            return this.PhysicalFile(file.LocalFilePath, MimeTypeMap.GetMimeType(file.Extension));
         }
-
-
-
-        
     }
 }

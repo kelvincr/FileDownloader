@@ -1,4 +1,8 @@
-﻿namespace Downloader.Test
+﻿// <copyright file="DownloaderTest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Downloader.Test
 {
     using System;
     using System.Diagnostics;
@@ -12,7 +16,7 @@
     public class DownloaderTest
     {
         /// <summary>
-        /// Downloaders the is resolve using mef.
+        ///     Downloaders the is resolve using mef.
         /// </summary>
         [TestMethod]
         public void DownloaderIsResolveUsingMef()
@@ -22,7 +26,7 @@
         }
 
         /// <summary>
-        /// Downloader should download in parallel.
+        ///     Downloader should download in parallel.
         /// </summary>
         /// <returns>Task Completed.</returns>
         [TestMethod]
@@ -30,7 +34,7 @@
         {
             var downloader = Loader.Load<IDownloader>();
             downloader.Should().NotBeNull().And.BeOfType<Downloader>();
-            var testUris = new[] { new Uri("test://server/6"), new Uri("test://server/8"), new Uri("test://server/9") };
+            var testUris = new[] {new Uri("test://server/6"), new Uri("test://server/8"), new Uri("test://server/9")};
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             await downloader.DownloadAsync(testUris, new CancellationTokenSource().Token);
@@ -38,11 +42,9 @@
             stopwatch.Stop();
             var elapsedTime = stopwatch.Elapsed.Seconds;
             elapsedTime.Should().BeLessThan(10);
-
         }
 
         //[TestMethod]
         //public void DownloaderShould
-
     }
 }

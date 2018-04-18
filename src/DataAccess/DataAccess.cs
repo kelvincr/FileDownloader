@@ -1,49 +1,104 @@
-﻿using System;
+﻿// <copyright file="DataAccess.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace DataAccess
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
-    using VelocityDb.Session;
+    using System.Linq;
+    using Extensibility;
+    using LiteDB;
 
-
-    public class DataAccess
+    /// <summary>
+    ///     Database Access.
+    /// </summary>
+    /// <seealso cref="Extensibility.IDataAccess" />
+    /// <inheritdoc />
+    public class DataAccess : IDataAccess
     {
-        private string defaultDatabasePath = Path.Combine(Path.GetTempPath(), "Downloader");
+        private readonly string databasePath;
 
-        public IEnumerable<File> GetFiles(int index)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DataAccess" /> class.
+        /// </summary>
+        /// <param name="databasePath">The database path.</param>
+        public DataAccess(string databasePath)
         {
-            using (var session = new SessionNoServer(defaultDatabasePath))
+            this.databasePath = databasePath;
+            if (!Directory.Exists(this.databasePath))
             {
-                session.BeginRead();
-                var bugTracker = session.Open();
-                session.Commit();
-                return new File[0];
+                Directory.CreateDirectory(this.databasePath);
             }
         }
 
-        public void StoreFile(String server, string name, string filePath, long size, DateTime date)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataAccess"/> class.
+        /// </summary>
+        public DataAccess()
+        : this(Path.Combine(Path.GetTempPath(), "DownloaderFilesDB"))
         {
-            using (SessionNoServer session = new SessionNoServer(this.defaultDatabasePath))
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<File> GetFiles(int index, int count = 5)
+        {
+            using (var db = new LiteDatabase(this.databasePath))
             {
-                session.BeginUpdate();
-                FullFile file = new FullFile()
+                var col = db.GetCollection<FullFile>("files");
+                return col.Find(Query.Between("Id", index, index + count));
+            }
+        }
+
+        /// <inheritdoc />
+        public int StoreFile(string server, string name, string filePath, long size, DateTime date)
+        {
+            using (var db = new LiteDatabase(this.databasePath))
+            {
+                var col = db.GetCollection<FullFile>("files");
+
+                var file = new FullFile
                 {
                     Server = server,
                     Name = name,
                     LocalFilePath = filePath,
                     Size = size,
                     Date = date.ToShortDateString(),
-                    Status = Status.PendingToProcess
+                    Status = "Pending to process"
                 };
-                session.Persist(file);
-                session.Commit();
+                col.EnsureIndex(x => x.Id, true);
+                return col.Insert(file);
             }
         }
 
-        public void UpDateFile(int id)
+        /// <inheritdoc />
+        public bool UpDateFile(int id, string status)
         {
+            using (var db = new LiteDatabase(this.databasePath))
+            {
+                var col = db.GetCollection<FullFile>("files");
+                var file = col.Find(Query.EQ("Id", id), limit: 1).FirstOrDefault();
+                if (file == null)
+                {
+                    return false;
+                }
 
+                file.Status = status;
+                return col.Update(id, file);
+            }
+        }
+
+        /// <inheritdoc />
+        public FullFile GetFullFile(int index)
+        {
+            using (var db = new LiteDatabase(this.databasePath))
+            {
+                var col = db.GetCollection<FullFile>("files");
+                var file = col.Find(Query.EQ("Id", index), limit: 1).FirstOrDefault();
+                return file;
+            }
         }
     }
 }

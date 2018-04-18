@@ -328,3 +328,9 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 **/npm-shrinkwrap.json
+
+DownloaderFiles/
+
+# Build related
+tools/**
+!tools/packages.config

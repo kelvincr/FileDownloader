@@ -3,8 +3,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System.Drawing;
-
 namespace Extensibility
 {
     using System;
@@ -28,12 +26,12 @@ namespace Extensibility
         IEnumerable<string> Scheme { get; }
 
         /// <summary>
-        /// Fetches the metadata.
+        /// Fetches the meta-data.
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <param name="credentials">The credentials.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>Meta-data from Uri.</returns>
         (long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken);
 
         /// <summary>

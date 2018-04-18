@@ -12,11 +12,14 @@ namespace Downloader.Test
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Downloader basic test.
+    /// </summary>
     [TestClass]
     public class DownloaderTest
     {
         /// <summary>
-        ///     Downloaders the is resolve using mef.
+        ///     Downloader the is resolve using mef.
         /// </summary>
         [TestMethod]
         public void DownloaderIsResolveUsingMef()
@@ -34,7 +37,7 @@ namespace Downloader.Test
         {
             var downloader = Loader.Load<IDownloader>();
             downloader.Should().NotBeNull().And.BeOfType<Downloader>();
-            var testUris = new[] {new Uri("test://server/6"), new Uri("test://server/8"), new Uri("test://server/9")};
+            var testUris = new[] { new Uri("test://server/6"), new Uri("test://server/8"), new Uri("test://server/9") };
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             await downloader.DownloadAsync(testUris, new CancellationTokenSource().Token);
@@ -43,8 +46,5 @@ namespace Downloader.Test
             var elapsedTime = stopwatch.Elapsed.Seconds;
             elapsedTime.Should().BeLessThan(10);
         }
-
-        //[TestMethod]
-        //public void DownloaderShould
     }
 }

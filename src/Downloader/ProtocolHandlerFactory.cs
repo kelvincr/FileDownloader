@@ -20,7 +20,7 @@ namespace Downloader
     {
         private readonly Dictionary<string, Type> handlers = new Dictionary<string, Type>();
 
-        private readonly ILogger Logger = AppLogger.CreateLogger<ProtocolHandlerFactory>();
+        private readonly ILogger logger = AppLogger.CreateLogger<ProtocolHandlerFactory>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProtocolHandlerFactory"/> class.
@@ -45,10 +45,10 @@ namespace Downloader
             if (this.handlers.ContainsKey(uri.Scheme))
             {
                 var type = this.handlers[uri.Scheme.ToLower()];
-                return (IProtocolHandler) Activator.CreateInstance(type);
+                return (IProtocolHandler)Activator.CreateInstance(type);
             }
 
-            this.Logger.LogError(Resources.EWI001, uri.Scheme);
+            this.logger.LogError(Resources.EWI001, uri.Scheme);
             return default(IProtocolHandler);
         }
 

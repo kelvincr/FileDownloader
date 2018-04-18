@@ -138,6 +138,7 @@ namespace Downloader
                     (obj) => RegisterOnDataBase(cleanUri.Host, cleanUri.PathAndQuery, destFile, metadata.Size, metadata.Mime), cancellationToken);
             }
         }
+
         private CompletedState ProcessUri(Uri uri, string fileName, ICredentials credentials, CancellationToken tk)
         {
             var attempts = this.options.MaxAttempts;

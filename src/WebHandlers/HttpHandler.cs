@@ -24,14 +24,14 @@ namespace WebHandlers
     public class HttpHandler : BaseHandler, IProtocolHandler
     {
         /// <inheritdoc cref="IProtocolHandler"/>
-        public IEnumerable<string> Scheme => new[] {"http", "https"};
+        public IEnumerable<string> Scheme => new[] { "http", "https" };
 
         /// <inheritdoc cref="IProtocolHandler"/>
-        public (long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
+        public(long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {
             try
             {
-                var request = (HttpWebRequest) WebRequest.Create(uri);
+                var request = (HttpWebRequest)WebRequest.Create(uri);
                 request.Credentials = credentials;
                 request.Method = WebRequestMethods.Http.Head;
                 var response = request.GetResponse();
@@ -54,7 +54,7 @@ namespace WebHandlers
         public async Task<CompletedState> ContinueDownloadAsync(
             Uri uri, Stream writeStream, long responseOffset, ICredentials credentials, CancellationToken cancellationToken)
         {
-            var request = (HttpWebRequest) WebRequest.Create(uri);
+            var request = (HttpWebRequest)WebRequest.Create(uri);
             request.Credentials = credentials;
             request.Method = WebRequestMethods.File.DownloadFile;
             return await this.GetResponseAsync(writeStream, request, responseOffset, cancellationToken);

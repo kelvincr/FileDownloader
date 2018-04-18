@@ -3,19 +3,19 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using Extensibility;
-
 namespace Downloader
 {
     using System;
     using System.Composition;
     using System.IO;
     using System.Reflection;
+    using Extensibility;
 
     /// <summary>
     /// Default Downloader Options.
     /// </summary>
     /// <seealso cref="IDownloaderOptions" />
+    /// <inheritdoc />
     [Export(typeof(IDownloaderOptions))]
     public class DownloaderOptions : IDownloaderOptions
     {

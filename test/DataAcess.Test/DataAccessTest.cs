@@ -1,13 +1,13 @@
-// <copyright file="DataAccessTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DataAccessTest.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
-
-using System.Linq;
 
 namespace DataAcess.Test
 {
     using System;
     using System.IO;
+    using System.Linq;
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using File = DataAccess.File;
@@ -27,7 +27,7 @@ namespace DataAcess.Test
             var data = new DataAccess.DataBase(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
             data.StoreFile("www.sample.com", "file.txt", @"//Storage/file1.txt", 100, string.Empty, string.Empty, DateTime.Now);
             data.StoreFile("www.sample.com", "file2.txt", @"//Storage/file2.txt", 100, string.Empty, string.Empty, DateTime.Now);
-            var files = data.GetFiles(0,1).ToArray();
+            var files = data.GetFiles(0, 1).ToArray();
                 files.Should().NotBeNull();
             files.Count().Should().Be(1);
             var file = files.First();

@@ -10,7 +10,6 @@ namespace Extensibility
     /// </summary>
     public interface IDownloaderOptions
     {
-
         /// <summary>
         /// Gets or sets the maximum attempts.
         /// </summary>

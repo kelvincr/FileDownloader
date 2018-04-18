@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CommandLine;
+﻿// <copyright file="Options.cs" company="Corp">
+// Copyright (c) Corp. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace Console
 {
+    using System.Collections.Generic;
+    using CommandLine;
+
     /// <summary>
     /// Console Options.
     /// </summary>
@@ -25,7 +28,7 @@ namespace Console
         /// <value>
         /// The output path.
         /// </value>
-        [Option('o', "output", Default = "DownloaderFiles" , HelpText = "OutputFile for Downloads.")]
+        [Option('o', "output", Default = "DownloaderFiles", HelpText = "OutputFile for Downloads.")]
         public string OutputPath { get; set; }
     }
 }

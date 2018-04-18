@@ -24,14 +24,14 @@ namespace WebHandlers
     public class FtpHandler : BaseHandler, IProtocolHandler
     {
         /// <inheritdoc cref="IProtocolHandler"/>
-        public IEnumerable<string> Scheme => new[] {"ftp", "sftp"};
+        public IEnumerable<string> Scheme => new[] { "ftp", "sftp" };
 
         /// <inheritdoc cref="IProtocolHandler"/>
-        public (long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
+        public(long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {
             try
             {
-                var request = (FtpWebRequest) WebRequest.Create(uri);
+                var request = (FtpWebRequest)WebRequest.Create(uri);
                 request.Credentials = credentials;
                 request.Method = WebRequestMethods.Ftp.GetFileSize;
                 var response = request.GetResponse();
@@ -54,7 +54,7 @@ namespace WebHandlers
         public async Task<CompletedState> ContinueDownloadAsync(
             Uri uri, Stream writeStream, long responseOffset, ICredentials credentials, CancellationToken cancellationToken)
         {
-            var request = (FtpWebRequest) WebRequest.Create(uri);
+            var request = (FtpWebRequest)WebRequest.Create(uri);
             request.Credentials = credentials ?? new NetworkCredential("anonymous", string.Empty);
             request.Method = WebRequestMethods.Ftp.DownloadFile;
             return await this.GetResponseAsync(writeStream, request, responseOffset, cancellationToken);

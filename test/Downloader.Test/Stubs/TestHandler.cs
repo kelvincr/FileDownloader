@@ -20,29 +20,40 @@ namespace Downloader.Test.Stubs
     [Export(typeof(IProtocolHandler))]
     public class TestHandler : IProtocolHandler
     {
-        public IEnumerable<string> Scheme => new[] {"Test"};
+        /// <inheritdoc />
+        public IEnumerable<string> Scheme => new[] { "Test" };
 
-        public async Task<long> FetchSize(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public Task<CompletedState> ContinueDownloadAsync(Uri uri, Stream writeStream, long responseOffset, ICredentials credentials, CancellationToken cancellationToken)
         {
-            const long size = -1;
-            return size;
+            throw new NotImplementedException();
         }
 
-        public async Task<CompletedState> DownloadAsync(Uri uri, Stream writeStream, ICredentials credentials,
-            CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public async Task<CompletedState> DownloadAsync(Uri uri, Stream writeStream, ICredentials credentials, CancellationToken cancellationToken)
         {
             var time = int.Parse(uri.AbsolutePath.Substring(1));
             var result = 0;
-            for (var i = 0; i < time * 10000; i++) result++;
-
+            result = await LoopMethod(time, result);
+            Console.WriteLine(result);
             return CompletedState.Succeeded;
         }
 
-        public Task<CompletedState> ContinueDownloadAsync(Uri uri, Stream writeStream, long responseOffset,
-            ICredentials credentials,
-            CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public (long Size, string Mime) FetchMetadata(Uri uri, ICredentials credentials, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            const long size = -1;
+            return (size, string.Empty);
+        }
+
+        private static async Task<int> LoopMethod(int time, int result)
+        {
+            for (var i = 0; i < time * 10000; i++)
+            {
+                result++;
+            }
+
+            return result;
         }
     }
 }

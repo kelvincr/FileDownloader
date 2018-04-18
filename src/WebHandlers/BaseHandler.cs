@@ -24,7 +24,7 @@ namespace WebHandlers
         /// <param name="request">The request.</param>
         /// <param name="responseOffset">The response offset.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>Task with completion status.</returns>
         protected async Task<CompletedState> GetResponseAsync(
             Stream writeStream, WebRequest request, long responseOffset, CancellationToken cancellationToken)
         {
